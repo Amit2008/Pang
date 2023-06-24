@@ -1,37 +1,47 @@
-using System.Collections;
-using System.Collections.Generic;
+using Pang;
+using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Pang
 {
-    /// <summary>
-    /// This script is used to control the player if the game is played on mobile.
-    /// </summary>
-    public class MovementButton : MonoBehaviour
+    public class MovementButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         [SerializeField] private MobileMovementButtonType mobileMovementButtonType;
 
-        private void OnMouseOver()
-        {
-            if (!Input.GetKey(KeyCode.Mouse0)) return;
+        private bool isPressed;
 
-            if (mobileMovementButtonType == MobileMovementButtonType.Right)
+        private void Update()
+        {
+            if (isPressed)
             {
-                GameplayEvents.Instance.PlayerPressedMoveRightButton?.Invoke();
-            }
-            else if(mobileMovementButtonType == MobileMovementButtonType.Left)
-            {
-                GameplayEvents.Instance.PlayerPressedMoveLeftButton?.Invoke();
+                // Simulate continuous key press behavior
+                HandleKeyPress();
             }
         }
 
-        private void OnMouseExit()
+        private void HandleKeyPress()
         {
-            GameplayEvents.Instance.PlayerReleasedMovementButton?.Invoke();
+            if(mobileMovementButtonType == MobileMovementButtonType.Left) GameplayEvents.Instance.PlayerPressedMoveLeftButton?.Invoke();
+            else if(mobileMovementButtonType == MobileMovementButtonType.Right) GameplayEvents.Instance.PlayerPressedMoveRightButton?.Invoke();
+        }
+
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            isPressed = true;
+        }
+
+        public void OnPointerUp(PointerEventData eventData)
+        {
+            isPressed = false;
+        }
+
+        private void OnDisable()
+        {
+            isPressed = false;
         }
     }
-
-    public enum MobileMovementButtonType 
+    public enum MobileMovementButtonType
     {
         Right,
         Left
