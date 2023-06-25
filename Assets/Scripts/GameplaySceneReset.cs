@@ -14,18 +14,20 @@ namespace Pang
         private void OnEnable()
         {
             GameplayEvents.Instance.ResetGameplaySceneClicked += ResetLevelAndStartAgain;
+            GameplayEvents.Instance.GameEnded += ResetGame;
         }
 
         private void OnDisable()
         {
             GameplayEvents.Instance.ResetGameplaySceneClicked -= ResetLevelAndStartAgain;
+            GameplayEvents.Instance.GameEnded -= ResetGame;
         }
 
-        /// <summary>
-        /// Resets the level by destroying all objects within the specified object containers and invokes the game scene reset event.
-        /// </summary>
-        private void ResetLevelAndStartAgain()
+
+        private void ResetGame(bool _) 
         {
+            // Itirate through all object containers and destroy all objects within them
+
             foreach (var objectContainer in objectContainers)
             {
                 foreach (Transform child in objectContainer)
@@ -33,7 +35,20 @@ namespace Pang
                     Destroy(child.gameObject);
                 }
             }
+        }
+        private void StartAgain() 
+        {
+            // Invoke the game scene reset event
             GameplayEvents.Instance.GameSceneReset?.Invoke();
+        }
+
+        /// <summary>
+        /// Resets the level by destroying all objects within the specified object containers and invokes the game scene reset event.
+        /// </summary>
+        private void ResetLevelAndStartAgain()
+        {
+            ResetGame(true);
+            StartAgain();
         }
     }
 }

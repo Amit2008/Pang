@@ -32,6 +32,7 @@ namespace Pang
         private void OnDisable()
         {
             GeneralEvents.Instance.LevelReadyToBeLoaded -= LoadGameplayScene;
+            GeneralEvents.Instance.GoToMainSceneEventRaised -= LoadMainMenuScene;
         }
 
         private void Start()

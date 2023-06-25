@@ -61,7 +61,6 @@ namespace Pang
         private void GameEnded(bool isWin)
         {
             GameplayEvents.Instance.GameEnded?.Invoke(isWin);
-            Time.timeScale = 0f;
         }
     }
 }

@@ -1,6 +1,8 @@
+using Codice.Client.Common.GameUI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Pang
 {
@@ -12,6 +14,8 @@ namespace Pang
     {
         [SerializeField] private GameObject _popup;
         private GameplayMenuView _gameplayMenuView;
+
+        [SerializeField] Button[] _buttons;
 
         private void Awake()
         {
@@ -27,6 +31,13 @@ namespace Pang
             GameplayEvents.Instance.GameEnded -= SetPopup;
         }
 
+        private void SetButtonInteractivityState(bool state) 
+        {
+            foreach (var button in _buttons)
+            {
+                button.interactable = state;
+            }
+        }
         /// <summary>
         /// Sets the popup state and updates the gameplay menu view with the appropriate title.
         /// </summary>
@@ -43,7 +54,7 @@ namespace Pang
         public void GoToMainMenu()
         {
             GeneralEvents.Instance.GoToMainSceneEventRaised?.Invoke(gameObject.scene.name);
-            Time.timeScale = 1f;
+            SetButtonInteractivityState(false);
         }
 
         /// <summary>
@@ -52,7 +63,7 @@ namespace Pang
         public void RestartGame()
         {
             GameplayEvents.Instance.ResetGameplaySceneClicked?.Invoke();
-            Time.timeScale = 1f;
+            SetButtonInteractivityState(true);
             _popup.SetActive(false);
         }
     }
