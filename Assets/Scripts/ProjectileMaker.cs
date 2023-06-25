@@ -30,12 +30,19 @@ namespace Pang
         {
             GameplayEvents.Instance.PlayerAttemptedShooting += MakeProjectile;
             GameplayEvents.Instance.ProjectileDestroyed += AllowMakingNewProjectile;
+            GameplayEvents.Instance.ResetGameplaySceneClicked += ResetProjectiles;
         }
 
         private void OnDisable()
         {
             GameplayEvents.Instance.PlayerAttemptedShooting -= MakeProjectile;
             GameplayEvents.Instance.ProjectileDestroyed -= AllowMakingNewProjectile;
+            GameplayEvents.Instance.ResetGameplaySceneClicked -= ResetProjectiles;
+        }
+
+        private void ResetProjectiles() 
+        {
+            _currentAlliveProjectiles = LevelModelDataHolder.Instance.LevelModel.MaxAmountOfBullets;
         }
 
         private void AllowMakingNewProjectile()
@@ -44,7 +51,7 @@ namespace Pang
             _currentAlliveProjectiles++;
             if (_currentAlliveProjectiles > LevelModelDataHolder.Instance.LevelModel.MaxAmountOfBullets)
             {
-                _currentAlliveProjectiles = LevelModelDataHolder.Instance.LevelModel.MaxAmountOfBullets;
+                ResetProjectiles();
             }
         }
 
