@@ -12,11 +12,16 @@ namespace Pang
     public class ShootingButton : MonoBehaviour
     {
         private Button button;
+
         private void Awake()
         {
             button = GetComponent<Button>();
             button.onClick.AddListener(Shoot);
         }
+
+        /// <summary>
+        /// Triggers the shooting event when the shooting button is pressed.
+        /// </summary>
         private void Shoot()
         {
             GameplayEvents.Instance.PlayerPressedShootingKey?.Invoke();

@@ -11,7 +11,7 @@ namespace Pang
     {
         [SerializeField] private Transform _projectileSpawner;
         [SerializeField] private PlayerView _playerView;
-        
+
         private PlayerModel _playerModel;
 
         private bool _isMovingLeft;
@@ -20,13 +20,16 @@ namespace Pang
 
         private void OnEnable()
         {
+            // Subscribe to input events
             GameplayEvents.Instance.PlayerPressedMoveLeftButton += MoveLeft;
             GameplayEvents.Instance.PlayerPressedMoveRightButton += MoveRight;
             GameplayEvents.Instance.PlayerReleasedMovementButton += StopMovement;
             GameplayEvents.Instance.PlayerPressedShootingKey += PlayerIsShooting;
         }
+
         private void OnDisable()
         {
+            // Unsubscribe from input events
             if (GameplayEvents.Instance == null) return;
 
             GameplayEvents.Instance.PlayerPressedMoveLeftButton -= MoveLeft;
@@ -41,26 +44,29 @@ namespace Pang
             HandleShooting();
         }
 
-        private void MoveLeft() 
+        private void MoveLeft()
         {
             _isMovingLeft = true;
             _isMovingRight = false;
         }
-        private void MoveRight()         
+
+        private void MoveRight()
         {
             _isMovingRight = true;
             _isMovingLeft = false;
         }
 
-        private void StopMovement() 
+        private void StopMovement()
         {
             _isMovingRight = false;
             _isMovingLeft = false;
         }
-        private void PlayerIsShooting() 
+
+        private void PlayerIsShooting()
         {
-            _isShooting = true; 
+            _isShooting = true;
         }
+
         public void SetPlayerModel(PlayerModel playerModel)
         {
             _playerModel = playerModel;
@@ -105,7 +111,7 @@ namespace Pang
             var movementTranslation = Vector2.right * moveInput * _playerModel.MoveSpeed * Time.deltaTime;
 
             // Calculate the player's new position
-            Vector2 newPosition = new Vector2(transform.position.x + movementTranslation.x, transform.position.y);// (Vector2)transform.position + movementTranslation;
+            Vector2 newPosition = new Vector2(transform.position.x + movementTranslation.x, transform.position.y);
 
             // Clamp the player's position to the screen boundaries
             float offset = (_playerView.PlayerViewRenderer.size.x / 2f) * _playerView.transform.localScale.x;
@@ -119,9 +125,11 @@ namespace Pang
 
         private void HandleShooting()
         {
-            if (Input.GetKeyDown(_playerModel.ShootKeyCode) || _isShooting) 
+            if (Input.GetKeyDown(_playerModel.ShootKeyCode) || _isShooting)
             {
+                // Invoke event to attempt shooting
                 GameplayEvents.Instance.PlayerAttemptedShooting?.Invoke(_projectileSpawner);
+
                 _isShooting = false;
                 Debug.Log("HandleShooting: Player tries to shoot projectile");
             }

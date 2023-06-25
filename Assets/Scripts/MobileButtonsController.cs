@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Pang
 {
     /// <summary>
-    /// This script is used to set the mobile buttons activation state.
+    /// This script is used to set the activation state of mobile buttons based on the platform.
     /// </summary>
     public class MobileButtonsController : MonoBehaviour
     {
@@ -14,7 +14,10 @@ namespace Pang
             SetMobileButtonsActivationState();
         }
 
-        private void SetMobileButtonsActivationState() 
+        /// <summary>
+        /// Sets the activation state of mobile buttons based on the platform.
+        /// </summary>
+        private void SetMobileButtonsActivationState()
         {
 #if !UNITY_ANDROID
             gameObject.SetActive(false);
@@ -22,3 +25,4 @@ namespace Pang
         }
     }
 }
+

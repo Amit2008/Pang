@@ -24,6 +24,7 @@ namespace Pang
         {
             GameplayEvents.Instance.WallsCreated += CreatePlayer;
         }
+
         private void OnDisable()
         {
             if (GameplayEvents.Instance == null) return;
@@ -31,11 +32,16 @@ namespace Pang
             GameplayEvents.Instance.WallsCreated -= CreatePlayer;
         }
 
+        /// <summary>
+        /// Creates the player object, sets its position, injects player data to the player controllers, and raises the PlayerCreated event.
+        /// </summary>
+        /// <param name="bottomWall">The transform of the bottom wall.</param>
+        /// <param name="sizeOfBottomWall">The size of the bottom wall.</param>
         private void CreatePlayer(Transform bottomWall, Vector2 sizeOfBottomWall)
         {
             List<PlayerController> playerControllers = new List<PlayerController>();
 
-            // Create the player here.
+            // Create the player object.
             GameObject playerObj = Instantiate(_playerPrefab);
             playerControllers.Add(playerObj.GetComponent<PlayerController>());
             playerObj.transform.SetParent(_parent);
@@ -43,10 +49,10 @@ namespace Pang
             // Set the position of the player to the middle of the bottom wall.
             playerObj.transform.position = new Vector3(bottomWall.position.x, bottomWall.position.y + sizeOfBottomWall.y / 2f, 0);
 
-            //Then, inject the player data to the player controllers
+            // Inject the player data to the player controllers.
             playerDataInjector.InjectPlayerDataToControllers(playerControllers);
 
-            //Then, raise the event that the player has been created.
+            // Raise the event that the player has been created.
             GameplayEvents.Instance.PlayerCreated?.Invoke();
         }
     }

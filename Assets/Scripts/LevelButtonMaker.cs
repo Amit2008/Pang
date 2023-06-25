@@ -24,17 +24,23 @@ namespace Pang
             CreateLevelButtons();
         }
 
-        private void CreateLevelButtons() 
+        /// <summary>
+        /// Creates the level buttons and injects them with the corresponding LevelButtonControllers.
+        /// </summary>
+        private void CreateLevelButtons()
         {
             List<LevelButtonController> levelButtonControllers = new List<LevelButtonController>();
 
+            // Iterate through the number of levels and instantiate the level button prefab for each level.
             for (int i = 0; i < _dataBinder.AmountOfLevels; i++)
             {
                 GameObject levelButton = Instantiate(_levelButtonPrefab, _container);
                 levelButtonControllers.Add(levelButton.GetComponent<LevelButtonController>());
             }
 
+            // Inject the LevelButtonControllers with the corresponding LevelModels.
             _dataBinder.InjectLevelButtonControllers(levelButtonControllers);
         }
     }
 }
+

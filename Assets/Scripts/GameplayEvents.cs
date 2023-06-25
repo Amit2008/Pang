@@ -8,7 +8,7 @@ namespace Pang
     /// <summary>
     /// This class is used to create events that will be called during gameplay.
     /// </summary>
-    public class GameplayEvents : MonoSingelton<GameplayEvents>
+    public class GameplayEvents : MonoSingleton<GameplayEvents>
     {
         // Creation Events
         public Action<Transform, Vector2> WallsCreated; // This is the event that will be called when the walls are created. The Transform and Vector2 the bottom wall needed data.

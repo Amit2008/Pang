@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: ProjectileData
   m_EditorClassIdentifier: 
   _projectileSprite: {fileID: -2413806693520163455, guid: 84e56442677b90a4bb2fad0bdf5bfbe4, type: 3}
-  projectileSpeed: 10
+  _projectileSpeed: 10

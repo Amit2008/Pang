@@ -5,23 +5,31 @@ using UnityEngine;
 namespace Pang
 {
     /// <summary>
-    /// This class is used to set the ball's view.
+    /// This class is responsible for setting the ball's view.
     /// </summary>
     public class BallView : MonoBehaviour
     {
         [SerializeField] private SpriteRenderer _ballSpriteRenderer;
 
-        public SpriteRenderer BallRenderer => _ballSpriteRenderer;
-
-        public void SetBallView(Sprite ballSprite, Vector2 ballScale) 
+        /// <summary>
+        /// Sets the ball's view by updating the sprite and scale.
+        /// </summary>
+        /// <param name="ballSprite">The sprite to be assigned to the ball.</param>
+        /// <param name="ballScale">The scale of the ball.</param>
+        public void SetBallView(Sprite ballSprite, Vector2 ballScale)
         {
             _ballSpriteRenderer.sprite = ballSprite;
             transform.localScale = Vector2.one * ballScale;
         }
 
-        public void SetBallPosition(Vector2 newPosition) 
+        /// <summary>
+        /// Sets the position of the ball.
+        /// </summary>
+        /// <param name="newPosition">The new position of the ball.</param>
+        public void SetBallPosition(Vector2 newPosition)
         {
             transform.position = newPosition;
         }
     }
 }
+

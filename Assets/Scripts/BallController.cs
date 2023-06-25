@@ -5,11 +5,11 @@ using UnityEngine;
 namespace Pang
 {
     /// <summary>
-    /// This class is used to control the ball and set the ball's view.
+    /// This class is responsible for controlling the ball's behavior and managing its view.
     /// </summary>
     [RequireComponent(typeof(BallView), typeof(CircleCollider2D))]
     public class BallController : MonoBehaviour
-    {        
+    {
         private BallModel _ballModel;
         private BallView _ballView;
         private int _ballLevel;
@@ -23,6 +23,7 @@ namespace Pang
             _ballView = GetComponent<BallView>();
             _rBody = GetComponent<Rigidbody2D>();
         }
+
         private void Start()
         {
             SetBallForces();
@@ -33,13 +34,21 @@ namespace Pang
             MoveBallHorizontally();
         }
 
-        private void MoveBallHorizontally() 
+        private void MoveBallHorizontally()
         {
-            Vector2 newPosition = _isMovingRight ? new Vector2(transform.position.x + _forceX * Time.deltaTime, transform.position.y) : 
+            Vector2 newPosition = _isMovingRight ?
+                new Vector2(transform.position.x + _forceX * Time.deltaTime, transform.position.y) :
                 new Vector2(transform.position.x - _forceX * Time.deltaTime, transform.position.y);
             _ballView.SetBallPosition(newPosition);
         }
 
+        /// <summary>
+        /// Injects the ball's data and updates its visual representation.
+        /// </summary>
+        /// <param name="ballModel">The data model for the ball.</param>
+        /// <param name="ballScale">The scale of the ball.</param>
+        /// <param name="ballLevel">The level of the ball.</param>
+        /// <param name="isMovingFirstRight">Flag indicating the initial movement direction.</param>
         public void InjectBallData(BallModel ballModel, Vector2 ballScale, int ballLevel, bool isMovingFirstRight)
         {
             _ballModel = ballModel;
@@ -48,7 +57,7 @@ namespace Pang
             _isMovingRight = isMovingFirstRight;
         }
 
-        private void SetBallForces() 
+        private void SetBallForces()
         {
             _forceY = _ballModel.LargestBallForceY;
             _forceX = _ballModel.ForceX;
@@ -64,6 +73,7 @@ namespace Pang
             WallController wallController = collision.gameObject.GetComponent<WallController>();
             PlayerController playerController = collision.gameObject.GetComponent<PlayerController>();
             ProjectileController projectileController = collision.gameObject.GetComponent<ProjectileController>();
+
             if (wallController != null)
             {
                 var wallType = wallController.WallType;
@@ -74,7 +84,7 @@ namespace Pang
                 GameplayEvents.Instance.BallHitPlayer?.Invoke();
                 Debug.Log("Ball Hit Player");
             }
-            else if (projectileController != null) 
+            else if (projectileController != null)
             {
                 GameplayEvents.Instance.BallHitProjectile?.Invoke(transform.position, _ballLevel);
                 Debug.Log("Ball Hit Projectile");
@@ -83,7 +93,7 @@ namespace Pang
             }
         }
 
-        private void SetBallVelocity(WallType wallType) 
+        private void SetBallVelocity(WallType wallType)
         {
             switch (wallType)
             {
@@ -91,7 +101,7 @@ namespace Pang
                     SetBallVelocity(new Vector2(0, _forceY));
                     break;
                 case WallType.Left:
-                    _isMovingRight= true;
+                    _isMovingRight = true;
                     break;
                 case WallType.Right:
                     _isMovingRight = false;
@@ -101,14 +111,15 @@ namespace Pang
             }
         }
 
-        private void SetBallVelocity(Vector2 velocity) 
+        private void SetBallVelocity(Vector2 velocity)
         {
             _rBody.velocity = velocity;
         }
 
-        private void DestroyBall() 
+        private void DestroyBall()
         {
             Destroy(gameObject);
         }
     }
 }
+

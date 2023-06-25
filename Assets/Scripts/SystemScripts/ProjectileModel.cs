@@ -11,9 +11,17 @@ namespace Pang
     public class ProjectileModel : ScriptableObject
     {
         [SerializeField] private Sprite _projectileSprite;
-        [SerializeField] private float projectileSpeed;
+        [SerializeField] private float _projectileSpeed;
 
+        /// <summary>
+        /// The sprite of the projectile.
+        /// </summary>
         public Sprite ProjectileSprite => _projectileSprite;
-        public float ProjectileSpeed => projectileSpeed;
+
+        /// <summary>
+        /// The speed of the projectile.
+        /// </summary>
+        public float ProjectileSpeed => _projectileSpeed;
     }
 }
+

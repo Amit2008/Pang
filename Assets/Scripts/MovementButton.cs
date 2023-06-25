@@ -5,6 +5,9 @@ using UnityEngine.EventSystems;
 
 namespace Pang
 {
+    /// <summary>
+    /// This class represents a movement button used for controlling player movement on mobile devices.
+    /// </summary>
     public class MovementButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         [SerializeField] private MobileMovementButtonType mobileMovementButtonType;
@@ -20,10 +23,15 @@ namespace Pang
             }
         }
 
+        /// <summary>
+        /// Handles the simulated continuous key press behavior based on the movement button type.
+        /// </summary>
         private void HandleKeyPress()
         {
-            if(mobileMovementButtonType == MobileMovementButtonType.Left) GameplayEvents.Instance.PlayerPressedMoveLeftButton?.Invoke();
-            else if(mobileMovementButtonType == MobileMovementButtonType.Right) GameplayEvents.Instance.PlayerPressedMoveRightButton?.Invoke();
+            if (mobileMovementButtonType == MobileMovementButtonType.Left)
+                GameplayEvents.Instance.PlayerPressedMoveLeftButton?.Invoke();
+            else if (mobileMovementButtonType == MobileMovementButtonType.Right)
+                GameplayEvents.Instance.PlayerPressedMoveRightButton?.Invoke();
         }
 
         public void OnPointerDown(PointerEventData eventData)
@@ -41,9 +49,14 @@ namespace Pang
             isPressed = false;
         }
     }
+
+    /// <summary>
+    /// Enum representing the type of movement button on mobile devices.
+    /// </summary>
     public enum MobileMovementButtonType
     {
         Right,
         Left
     }
 }
+

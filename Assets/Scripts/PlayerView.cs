@@ -12,22 +12,35 @@ namespace Pang
     {
         private SpriteRenderer _playerSpriteRenderer;
 
+        /// <summary>
+        /// The SpriteRenderer component of the player view.
+        /// </summary>
         public SpriteRenderer PlayerViewRenderer => _playerSpriteRenderer;
 
         private void Awake()
         {
-            if(_playerSpriteRenderer == null)
-                _playerSpriteRenderer = GetComponent<SpriteRenderer>();            
+            // If the _playerSpriteRenderer is not assigned, get the SpriteRenderer component attached to the same GameObject.
+            if (_playerSpriteRenderer == null)
+                _playerSpriteRenderer = GetComponent<SpriteRenderer>();
         }
 
-        public void SetPlayerView(Sprite playerSprite) 
-        {            
+        /// <summary>
+        /// Sets the sprite of the player view.
+        /// </summary>
+        /// <param name="playerSprite">The sprite to set for the player view.</param>
+        public void SetPlayerView(Sprite playerSprite)
+        {
             _playerSpriteRenderer.sprite = playerSprite;
         }
 
-        public void MovePlayer(Vector2 movementTranslation) 
+        /// <summary>
+        /// Moves the player by setting the position of the parent object.
+        /// </summary>
+        /// <param name="movementTranslation">The translation vector to move the player.</param>
+        public void MovePlayer(Vector2 movementTranslation)
         {
             transform.parent.position = movementTranslation;
         }
     }
 }
+

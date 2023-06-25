@@ -16,22 +16,32 @@ namespace Pang
         [SerializeField] private TextMeshProUGUI _levelNameText;
         private Button _goToGameButton;
         private Action _buttonAction;
-        
+
         private void Awake()
         {
             _goToGameButton = GetComponent<Button>();
             _goToGameButton.onClick.AddListener(OnLevelButtonClick);
         }
 
-        public void SetLevelButtonView(string levelName, Action buttonAction) 
+        /// <summary>
+        /// Sets the visual elements of the level button.
+        /// </summary>
+        /// <param name="levelName">The name of the level to display on the button.</param>
+        /// <param name="buttonAction">The action to be executed when the button is clicked.</param>
+        public void SetLevelButtonView(string levelName, Action buttonAction)
         {
             _levelNameText.text = levelName;
             _buttonAction = buttonAction;
         }
 
-        private void OnLevelButtonClick() 
+        /// <summary>
+        /// Event handler for the level button click event.
+        /// Invokes the assigned button action.
+        /// </summary>
+        private void OnLevelButtonClick()
         {
             _buttonAction?.Invoke();
         }
     }
 }
+

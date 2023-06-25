@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Pang
 {
     /// <summary>
-    /// This class is used to control the gamplay menu
+    /// This class is responsible for controlling the gameplay menu and its interactions.
     /// </summary>
     [RequireComponent(typeof(GameplayMenuView))]
     public class GameplayMenuConroller : MonoBehaviour
@@ -27,18 +27,29 @@ namespace Pang
             GameplayEvents.Instance.GameEnded -= SetPopup;
         }
 
-        private void SetPopup(bool isWin)         
+        /// <summary>
+        /// Sets the popup state and updates the gameplay menu view with the appropriate title.
+        /// </summary>
+        /// <param name="isWin">A flag indicating if the game ended with a win.</param>
+        private void SetPopup(bool isWin)
         {
             _popup.SetActive(true);
             _gameplayMenuView.SetView(isWin ? GameConstants.GameWon : GameConstants.GameLost);
         }
 
-        public void GoToMainMenu() 
+        /// <summary>
+        /// Transitions to the main menu scene.
+        /// </summary>
+        public void GoToMainMenu()
         {
             GeneralEvents.Instance.GoToMainSceneEventRaised?.Invoke(gameObject.scene.name);
             Time.timeScale = 1f;
         }
-        public void RestartGame() 
+
+        /// <summary>
+        /// Restarts the gameplay scene.
+        /// </summary>
+        public void RestartGame()
         {
             GameplayEvents.Instance.ResetGameplaySceneClicked?.Invoke();
             Time.timeScale = 1f;
@@ -46,3 +57,4 @@ namespace Pang
         }
     }
 }
+
